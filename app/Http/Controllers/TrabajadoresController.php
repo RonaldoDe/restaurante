@@ -23,7 +23,7 @@ class TrabajadoresController extends Controller
         if($validator->fails()){
           //return response()->json(['errors'=>$validator->errors()->all()]);
           // return response()->json( $datos='nO ' );
-          return response()->json( $errors=$validator->errors()->all() );
+          return response()->json( $errors=$validator->errors()->all(),200 );
         }else{
         $trabajador = Trabajador::create([
             'nombre' => request('nombre'),
@@ -36,6 +36,6 @@ class TrabajadoresController extends Controller
         ]);
         return response()->json( ['message' => 'Trabajador registrado con exito'],201 );
         }
-        return response()->json( ['message' => 'Error al registrar'] );
+        return response()->json( ['message' => 'Error al registrar'],500 );
     }
 }
