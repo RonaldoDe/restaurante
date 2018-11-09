@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2018 a las 01:45:13
+-- Tiempo de generación: 09-11-2018 a las 05:22:36
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.8
 
@@ -45,8 +45,17 @@ CREATE TABLE `cargo` (
   `id_cargo` int(11) NOT NULL,
   `nombre` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
   `sueldo` int(11) NOT NULL,
-  `descripcion` varchar(502) COLLATE utf8_unicode_ci NOT NULL
+  `descripcion` varchar(502) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cargo`
+--
+
+INSERT INTO `cargo` (`id_cargo`, `nombre`, `sueldo`, `descripcion`, `created_at`, `updated_at`) VALUES
+(1, 'Mesero', 1000000, 'Es el h mesero', '2018-11-09 01:55:28', '2018-11-09 01:55:28');
 
 -- --------------------------------------------------------
 
@@ -293,12 +302,13 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `pedido` (
   `id_pedido` int(11) NOT NULL,
-  `nombre_cliente` int(11) NOT NULL,
+  `nombre_cliente` varchar(75) COLLATE utf8_unicode_ci NOT NULL,
   `id_trabajador` int(11) NOT NULL,
   `id_mesa` int(11) NOT NULL,
-  `fecha_pedido` date NOT NULL,
-  `hora_pedido` time NOT NULL,
-  `estado` varchar(15) COLLATE utf8_unicode_ci NOT NULL
+  `fecha_pedido` datetime NOT NULL,
+  `estado` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -436,8 +446,17 @@ CREATE TABLE `user_cargo` (
   `id_user_cargo` int(11) NOT NULL,
   `id_trabajador` int(11) NOT NULL,
   `id_cargo` int(11) NOT NULL,
-  `observaciones` varchar(300) COLLATE utf8_unicode_ci NOT NULL
+  `observaciones` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `user_cargo`
+--
+
+INSERT INTO `user_cargo` (`id_user_cargo`, `id_trabajador`, `id_cargo`, `observaciones`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'este man es mesero', '2018-11-09 04:09:17', '2018-11-09 04:09:17');
 
 -- --------------------------------------------------------
 
@@ -653,7 +672,7 @@ ALTER TABLE `user_turnos`
 -- AUTO_INCREMENT de la tabla `cargo`
 --
 ALTER TABLE `cargo`
-  MODIFY `id_cargo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `cocinero_plato`
 --
@@ -708,7 +727,7 @@ ALTER TABLE `oferta_dia`
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
@@ -753,7 +772,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `user_cargo`
 --
 ALTER TABLE `user_cargo`
-  MODIFY `id_user_cargo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user_cargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `user_turnos`
 --
@@ -774,8 +793,8 @@ ALTER TABLE `bebida`
 -- Filtros para la tabla `cocinero_plato`
 --
 ALTER TABLE `cocinero_plato`
-  ADD CONSTRAINT `cocinero_plato_ibfk_1` FOREIGN KEY (`id_cocinero`) REFERENCES `trabajadores` (`id_trabajador`),
-  ADD CONSTRAINT `cocinero_plato_ibfk_2` FOREIGN KEY (`id_plato`) REFERENCES `platos` (`id_plato`);
+  ADD CONSTRAINT `cocinero_plato_ibfk_2` FOREIGN KEY (`id_plato`) REFERENCES `platos` (`id_plato`),
+  ADD CONSTRAINT `cocinero_plato_ibfk_3` FOREIGN KEY (`id_cocinero`) REFERENCES `user_cargo` (`id_user_cargo`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `detallespedidos_bebidas`
