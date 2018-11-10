@@ -22,4 +22,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('crearCargo', 'CargoController@create');
     Route::post('CargoUsuario', 'UserCargoController@create');
     Route::post('pedido', 'PedidoController@create');
+    Route::post('mesas', 'MesasController@create');
 });

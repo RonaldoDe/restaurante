@@ -31,6 +31,6 @@ class PedidoController extends Controller
         ]);
         return response()->json( ['message' => 'Pedido creado con exito'],201 );
         }
-        return response()->json( ['message' => 'Error al Realizar pedido'],500 );
+        return response()->json( ['message' => 'Error al Realizar pedido'],400 );
     }
 }
